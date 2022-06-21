@@ -19,6 +19,8 @@ export default async function getDeploymentUrl(
   const qs = querystring.stringify(query)
 
   core.info(`Fetching from: ${apiUrl}${deploymentsUrl}?${qs}`)
+  core.info(`${apiUrl}${deploymentsUrl}?${qs}`)
+  core.info(`Bearer ${token}`)
   const { data } = await axios.get(`${apiUrl}${deploymentsUrl}?${qs}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -26,6 +28,9 @@ export default async function getDeploymentUrl(
     }
   })
 
+  core.info(JSON.stringify(data))
+  core.info(data)
+  
   if (!data || !data.deployments || data.deployments.length <= 0) {
     core.error(JSON.stringify(data, null, 2))
     throw new Error('no deployments found')
